@@ -1,13 +1,9 @@
 const User = require('../Models/User');
+const {generateUserToken} = require('../Services/auth');
 const handleUserSignup = async (req , res)=>{
     try{
         const {name, email, password} = req.body;
-        
-        // Validation
-        if(!name || !email || !password){
-            return res.render('signup', {error: 'All fields are required'});
-        }
-        
+        console.log(name,email,password);
         const user = await User.findOne({email});
         if(user){
             return res.render('signup', {error: 'Email already registered'});
@@ -23,5 +19,18 @@ const handleUserSignup = async (req , res)=>{
     }
 }
 
+handleUserLogin = async (req, res)=>{
+try{
+const {email, password} = req.body;
+const user = await User.checkUserPassword(email, password);
+const token = generateUserToken(user);
+res.cookie("token",token);
 
-module.exports = {handleUserSignup}
+return res.redirect('/');
+}catch(error){
+    return res.render('login',{error: error})
+}
+}
+
+
+module.exports = {handleUserSignup, handleUserLogin}

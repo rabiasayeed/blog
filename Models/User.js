@@ -18,5 +18,21 @@ userSchema.pre("save", function () {
     this.salt = salt;
     this.password = hash;
 });
+
+userSchema.static("checkUserPassword",async function (email, password){
+    const user = await this.findOne({email});
+    if (!user){
+        throw new Error("invalid Email address");
+    }
+    const salt = user.salt;
+    const hashedPassword = createHmac("sha256", salt)
+        .update(password)
+        .digest("hex");
+
+    if ( hashedPassword !== user.password){
+        throw new Error("Invalid password");
+    }
+    return user;
+})
 const User = model("User",userSchema);
 module.exports = User;
