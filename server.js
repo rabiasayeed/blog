@@ -5,6 +5,7 @@ const ejs = require('ejs');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const checkUser = require('./Middleware/protect');
+const Blog = require('./Models/Blog');
 
 
 const app = express();
@@ -14,16 +15,19 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}))
 app.use(cookieParser());
 app.use(checkUser());
+app.use(express.static(path.resolve("./uploads")));
+console.log(path.join(__dirname, 'uploads/blog'))
 
-const userRoute = require('./Routes/userRoute')
+const userRoute = require('./Routes/userRoute');
+const blogRoute = require('./Routes/blogRoute');
 
-app.get('/',(req, res)=>{
-    if (!req.user){
-        return res.redirect('/user/login');
-    }
-    return res.render("home",{user: req.user});
+app.get('/',async (req, res)=>{
+const blogs = await Blog.find({});
+    
+    return res.render("home",{user: req.user, blogs: blogs});
 })
 app.use('/user',userRoute);
+app.use('/blog',blogRoute);
 
 
 
