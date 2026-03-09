@@ -1,5 +1,5 @@
-const User = require('../Models/User');
-const {generateUserToken} = require('../Services/auth');
+const User = require('../Models/User');//Imports the User model from the Models folder.
+const {generateUserToken} = require('../Services/auth');//Imports a function that creates an authentication token (usually JWT).This token helps identify logged-in users.
 const handleUserSignup = async (req , res)=>{
     try{
         const {name, email, password} = req.body;
@@ -19,12 +19,12 @@ const handleUserSignup = async (req , res)=>{
     }
 }
 
-handleUserLogin = async (req, res)=>{
+const handleUserLogin = async (req, res)=>{
 try{
 const {email, password} = req.body;
-const user = await User.checkUserPassword(email, password);
+const user = await User.checkUserPassword(email, password);//Creates an authentication token for that user.
 const token = generateUserToken(user);
-res.cookie("token",token);
+res.cookie("token",token);//Stores the token in a browser cookie.This helps keep the user logged in.
 
 return res.redirect('/');
 }catch(error){
