@@ -9,28 +9,28 @@
 <body>
   <%- include('navbar') %>
     <div>
-        <div class="card" style="width: 100vw;">
+        <div class="bg-white">
   <img src="<%= blog.image %>" class="card-img-top" alt="...">
-  <div class="card-body">
+  <div class=" m-4"> 
     <h2><%= blog.title %></h2>
-    <pre class="card-text"><%= blog.body %></pre>
-    <p><strong>Blog By: <%= blog.createdBy.name %></strong></p>
+    <pre class="flex items-center justify-between mb-8  pb-4 whitespace-pre-wrap font-sans"><%= blog.body %></pre>
+    <p class="text-grey-800"><strong>Blog By: <%= blog.createdBy.name %></strong></p>
     <b>CreatedAt: <%= blog.createdAt %></b>
   </div>
 </div>
 
 <div>
-    <h3>Comments</h3>
+    <h3 class=" m-8">Comments</h3>
     <div>
      <% if (locals.comments){ 
       comments.forEach((comment) =>{ %>
 
-      <div>
+      <div class="bg-white mb-5 rounded-xl ">
         <p><strong><%= comment.userId.name %></strong></p>
         <p><%= comment.comment %></p>
       </div>
 
-    <% } )} %>
+      <% } )} %>
     </div>
     <% if (locals.user){ %>
         <form action="/blog/comments/<%= blog._id %>" method="post">

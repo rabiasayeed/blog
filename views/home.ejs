@@ -11,10 +11,10 @@
 
     <div class="container grid grid-template-3">
       <% if (locals.blogs) { blogs.forEach((blog)=>{ %>
-        <div class="card" style="width: 18rem;">
-          <img src="<%= blog.image %>" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title"><%= blog.title %></h5>
+        <div class="bg-black rounded-xl text-white" style="width: 100vh;">
+          <img src="<%= blog.image %>" class="card-img-top" alt="blog image">
+          <div class="p-8">
+            <h5 class="text-lg font-semibold text-gray-800 mt-2 mb-3"><%= blog.title %></h5>
             
             <a href="/blog/readBlog/<%= blog._id %>" class="btn btn-primary">Read Blog</a>
           </div>
